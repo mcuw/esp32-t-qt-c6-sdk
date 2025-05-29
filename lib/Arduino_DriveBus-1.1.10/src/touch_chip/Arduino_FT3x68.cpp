@@ -180,23 +180,13 @@ bool Arduino_FT3x68::IIC_Write_Device_State(uint32_t device, uint8_t state)
 
 bool Arduino_FT3x68::IIC_Write_Device_Value(uint32_t device, uint32_t value)
 {
-    uint8_t temp_buf = 0;
-
-    switch (device)
+    if (device != Arduino_IIC_Power::Device_Value::POWER_DEVICE_CHARGING_TARGET_VOLTAGE_LIMIT)
     {
-    case Arduino_IIC_Power::Device_Value::POWER_DEVICE_CHARGING_TARGET_VOLTAGE_LIMIT: // 0-100 秒
-        if (value >= 0 && value <= 100)
-        {
-            if (_bus->IIC_WriteC8D8(_device_address, FT3x68_RD_WR_DEVICE_AUTOMATICALLY_MONITOR_MODE_TIME, value) == true)
-            {
-                return true;
-            }
-        }
-        break;
-
-    default:
-        break;
+        return false;
     }
+
+    // 0-100 秒
+    return value >= 0 && value <= 100 && _bus->IIC_WriteC8D8(_device_address, FT3x68_RD_WR_DEVICE_AUTOMATICALLY_MONITOR_MODE_TIME, value);
 }
 
 String Arduino_FT3x68::IIC_Read_Device_State(uint32_t information)

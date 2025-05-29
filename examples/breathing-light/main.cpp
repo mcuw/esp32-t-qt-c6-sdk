@@ -15,13 +15,13 @@ std::unique_ptr<Arduino_IIC> SGM41562(new Arduino_SGM41562(IIC_Bus, SGM41562_DEV
 
 void initPowerChip()
 {
-  if (SGM41562->begin() == true)
+  if (SGM41562->begin())
   {
     Serial.println("SGM41562 initialization successfully");
     return;
   }
 
-  if (ETA4662->begin() == true)
+  if (ETA4662->begin())
   {
     Serial.println("ETA4662 initialization successfully");
     return;
