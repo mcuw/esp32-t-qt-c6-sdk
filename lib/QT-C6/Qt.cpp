@@ -78,5 +78,10 @@ void Qt::setBreathingLight(uint32_t duty)
 
 void Qt::setBatteryMessurement(bool activate)
 {
-  digitalWrite(BATTERY_MEASUREMENT_CONTROL, activate ? LOW : HIGH); // set battery messurement off
+  digitalWrite(BATTERY_MEASUREMENT_CONTROL, activate ? LOW : HIGH); // set battery messurement activation
+}
+
+float Qt::getBatteryVoltage()
+{
+  return (((float)analogReadMilliVolts(BATTERY_ADC_DATA)) / 1000.0) * 2.0;
 }

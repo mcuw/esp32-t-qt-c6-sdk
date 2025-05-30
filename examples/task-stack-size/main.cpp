@@ -9,7 +9,7 @@
 #define BREATHING_INTERVAL 1000
 #define STACK_SIZE 1024
 
-TaskHandle_t taskBreathingHandle;
+TaskHandle_t taskHandle;
 Qt qt;
 
 void breathingTask(void *pvParameters)
@@ -38,9 +38,9 @@ void printWatermark(void *pvParameters)
   {
     delay(2000);
     Serial.print("TASK: ");
-    Serial.print(pcTaskGetName(taskBreathingHandle)); // Get task name with handler
+    Serial.print(pcTaskGetName(taskHandle)); // Get task name with handler
     Serial.print(", needs more than [bytes]: ");
-    Serial.print(STACK_SIZE - uxTaskGetStackHighWaterMark(taskBreathingHandle));
+    Serial.print(STACK_SIZE - uxTaskGetStackHighWaterMark(taskHandle));
     Serial.println();
   }
 }
@@ -52,12 +52,12 @@ void setup()
   qt.begin();
 
   xTaskCreate(
-      breathingTask,       // Task function
-      "Breathing Light",   // Name of the task
-      STACK_SIZE,          // Stack size in bytes
-      NULL,                // Parameters to pass
-      1,                   // Task priority (1 is the default level)
-      &taskBreathingHandle // Task handle
+      breathingTask,     // Task function
+      "Breathing Light", // Name of the task
+      STACK_SIZE,        // Stack size in bytes
+      NULL,              // Parameters to pass
+      1,                 // Task priority (1 is the default level)
+      &taskHandle        // Task handle
   );
 
   xTaskCreate(

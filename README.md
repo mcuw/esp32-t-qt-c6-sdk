@@ -7,6 +7,7 @@ Uncomment `src_dir=` in the `platform.ini` file.
 ## Supported boards
 
 - [LilyGo T-QT C6](https://lilygo.cc/products/t-qt-c6)
+  based on ESP32-C6 chip and with 128x128px TFT full-color touch screen
 
 ## Disclaimer
 
