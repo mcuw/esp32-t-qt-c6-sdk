@@ -7,7 +7,7 @@
 #include "Qt.h"
 
 #define MEASUREMENT_INTERVAL 2000
-#define STACK_SIZE 1900
+#define STACK_SIZE 2048
 
 Qt qt;
 
