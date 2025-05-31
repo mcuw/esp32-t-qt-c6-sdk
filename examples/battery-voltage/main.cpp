@@ -16,10 +16,10 @@ void batteryVoltageTask(void *pvParameters)
 {
   for (;;)
   {
-    // Serial.print("ADC Value:");
-    // Serial.println(analogRead(BATTERY_ADC_DATA));
+    Serial.print("ADC Value:");
+    Serial.println(analogRead(BATTERY_ADC_DATA));
 
-    // Serial.printf("ADC Voltage: %.03f V\n", ((float)analogReadMilliVolts(BATTERY_ADC_DATA)) / 1000.0);
+    Serial.printf("ADC Voltage: %.03f V\n", ((float)analogReadMilliVolts(BATTERY_ADC_DATA)) / 1000.0);
 
     Serial.printf("Battery Voltage: %.03f V\n", qt.getBatteryVoltage());
 
