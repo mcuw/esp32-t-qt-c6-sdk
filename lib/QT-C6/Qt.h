@@ -2,6 +2,15 @@
 #define QT_H
 #include <Arduino.h>
 
+typedef struct
+{
+  bool touched;
+  String gesture;
+  uint8_t fingers;
+  uint8_t x;
+  uint8_t y;
+} TouchState;
+
 class Qt
 {
 public:
@@ -15,10 +24,13 @@ public:
 
   float getBatteryVoltage();
 
+  TouchState getTouch();
+
 protected:
   virtual void setupBacklight();
   virtual void setupBatteryMessurement();
   virtual void setupBreathingLight();
+  virtual void setupTouch();
 
 private:
   void initPowerChip();
