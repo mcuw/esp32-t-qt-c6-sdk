@@ -1,10 +1,18 @@
 #include <ArduinoOTA.h>
 #include <WiFi.h>
+#include "Arduino_GFX_Library.h"
 #include "Arduino_DriveBus_Library.h"
 #include "pin_config.h"
 #include "./Qt.h"
 
 void Arduino_IIC_Touch_Interrupt(void);
+
+Arduino_DataBus *bus = new Arduino_HWSPI(LCD_DC, LCD_CS, LCD_SCLK, LCD_MOSI, LCD_MISO);
+
+Arduino_GFX *gfx = new Arduino_GC9107(
+    bus, LCD_RST, 0 /* rotation */, true /* IPS */,
+    LCD_WIDTH, LCD_HEIGHT,
+    2 /* col offset 1 */, 1 /* row offset 1 */, 0 /* col_offset2 */, 0 /* row_offset2 */);
 
 std::shared_ptr<Arduino_IIC_DriveBus> IIC_Bus =
     std::make_shared<Arduino_HWIIC>(IIC_SDA, IIC_SCL, &Wire);
@@ -34,6 +42,7 @@ void Qt::begin()
   setupBatteryMessurement();
   setupBacklight();
   setupTouch();
+  setupGfx();
 }
 
 void Qt::initPowerChip()
@@ -57,7 +66,7 @@ void Qt::setupBacklight()
 {
   pinMode(LCD_BL, OUTPUT);
   ledcAttach(LCD_BL, 2000, 8);
-  ledcWrite(LCD_BL, 255); // deactivate backlight as default to reduce power consumption
+  setBacklight(255); // deactivate backlight as default to reduce power consumption
 }
 
 void Qt::setupBatteryMessurement()
@@ -124,4 +133,32 @@ TouchState Qt::getTouch()
   state.fingers = CST816T->IIC_Read_Device_Value(CST816T->Arduino_IIC_Touch::Value_Information::TOUCH_FINGER_NUMBER);
 
   return state;
+}
+
+void Qt::setupGfx()
+{
+  gfx->begin();
+  // example overwrite setupGfx and set default color
+  // gfx->fillScreen(color);
+}
+
+void Qt::fillScreenGfx(uint16_t color)
+{
+  gfx->fillScreen(color);
+}
+
+void Qt::printfGfx(uint16_t color, int16_t x, int16_t y, const char *format, ...)
+{
+  gfx->setCursor(x, y);
+  gfx->setTextColor(color);
+
+  va_list args;
+  va_start(args, format);
+  gfx->vprintf(format, args);
+  va_end(args);
+}
+
+void Qt::setTextSizeGfx(uint8_t s)
+{
+  gfx->setTextSize(s);
 }

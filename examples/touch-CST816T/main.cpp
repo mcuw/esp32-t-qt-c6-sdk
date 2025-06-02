@@ -48,7 +48,7 @@ void touchTask(void *pvParameters)
 
       Serial.printf("Fingers number: %d\n\n", state.fingers); // 0 on clicks otherwise 1
 
-      vTaskDelay(pdMS_TO_TICKS(MEASUREMENT_INTERVAL)); // wait 1000 ms
+      vTaskDelay(pdMS_TO_TICKS(MEASUREMENT_INTERVAL)); // wait 100 ms
     }
   }
 }
