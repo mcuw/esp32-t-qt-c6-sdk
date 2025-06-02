@@ -26,11 +26,17 @@ public:
 
   TouchState getTouch();
 
+  void fillScreenGfx(uint16_t color);
+  void printfGfx(uint16_t color, int16_t x, int16_t y, const char *format, ...);
+  // Desired text size. 1 is default 6x8, 2 is 12x16, 3 is 18x24, etc
+  void setTextSizeGfx(uint8_t s = 1);
+
 protected:
   virtual void setupBacklight();
   virtual void setupBatteryMessurement();
   virtual void setupBreathingLight();
   virtual void setupTouch();
+  virtual void setupGfx();
 
 private:
   void initPowerChip();
