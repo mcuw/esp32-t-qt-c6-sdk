@@ -126,6 +126,10 @@ TouchState Qt::getTouch()
   state.touched = true;
 
   state.gesture = CST816T->IIC_Read_Device_State(CST816T->Arduino_IIC_Touch::Status_Information::TOUCH_GESTURE_ID);
+  if (state.gesture.endsWith("fail"))
+  {
+    state.gesture = "None";
+  }
 
   state.x = CST816T->IIC_Read_Device_Value(CST816T->Arduino_IIC_Touch::Value_Information::TOUCH_COORDINATE_X);
   state.y = CST816T->IIC_Read_Device_Value(CST816T->Arduino_IIC_Touch::Value_Information::TOUCH_COORDINATE_Y);

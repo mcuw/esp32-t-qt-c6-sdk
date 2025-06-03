@@ -5,7 +5,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "pin_config.h"
-#include "QtDev.h"
+#include "Qt.h"
 #include <Arduino_GFX.h>
 
 #define STACK_SIZE 2048
