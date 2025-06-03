@@ -166,3 +166,11 @@ void Qt::setTextSizeGfx(uint8_t s)
 {
   gfx->setTextSize(s);
 }
+
+void Qt::startAP(const char *ssid, const char *passphrase, wifi_auth_mode_t auth_mode, int channel,
+                 int ssid_hidden, int max_connection, bool ftm_responder)
+{
+  WiFi.mode(WIFI_AP);
+  delay(10);
+  WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, auth_mode);
+}
