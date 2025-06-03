@@ -1,11 +1,9 @@
 #include <Arduino.h>
 #include <DebugUtils.h>
-// #include "Arduino_GFX_Library.h"
-// #include "Arduino_DriveBus_Library.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "pin_config.h"
-#include "QtDev.h"
+#include "Qt.h"
 
 // disconnect the ring when using the Serial Debug
 // otherwise the touch initialization fails
