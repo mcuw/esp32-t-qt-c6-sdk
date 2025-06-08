@@ -1,5 +1,6 @@
 #include <ArduinoOTA.h>
 #include <WiFi.h>
+#include <LittleFS.h>
 #include "Arduino_GFX_Library.h"
 #include "Arduino_DriveBus_Library.h"
 #include "pin_config.h"
@@ -167,10 +168,23 @@ void Qt::setTextSizeGfx(uint8_t s)
   gfx->setTextSize(s);
 }
 
-void Qt::startAP(const char *ssid, const char *passphrase, wifi_auth_mode_t auth_mode, int channel,
+void Qt::setupAp(const char *ssid, const char *passphrase, wifi_auth_mode_t auth_mode, int channel,
                  int ssid_hidden, int max_connection, bool ftm_responder)
 {
+  if (!passphrase)
+  {
+    Serial.println("Warning: setup empty passphrase is insecure");
+  }
   WiFi.mode(WIFI_AP);
   delay(10);
   WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, auth_mode);
+}
+
+void Qt::setupFs()
+{
+#ifdef ESP32
+  LittleFS.begin(true);
+#else
+  LittleFS.begin();
+#endif
 }

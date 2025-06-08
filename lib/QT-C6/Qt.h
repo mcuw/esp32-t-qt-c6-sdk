@@ -1,7 +1,7 @@
 #ifndef QT_H
 #define QT_H
 #include <Arduino.h>
-#include "Wifi.h"
+#include <Wifi.h>
 
 typedef struct
 {
@@ -32,8 +32,10 @@ public:
   // Desired text size. 1 is default 6x8, 2 is 12x16, 3 is 18x24, etc
   void setTextSizeGfx(uint8_t s = 1);
 
-  void startAP(const char *ssid, const char *passphrase = "qtqtpasspass",
+  void setupAp(const char *ssid, const char *passphrase = "qtqtpasspass",
                wifi_auth_mode_t auth_mode = WIFI_AUTH_WPA2_WPA3_PSK, int channel = 1, int ssid_hidden = 0, int max_connection = 4, bool ftm_responder = false);
+
+  void setupFs();
 
 protected:
   virtual void setupBacklight();

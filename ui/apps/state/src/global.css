@@ -1,0 +1,29 @@
+html {
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  color: #225ece;
+  font-size: 1.2rem;
+}
+
+.button {
+  display: inline-block;
+  background-color: #008CBA;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 16px 40px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #00FCFA;
+}
+
+.secondary {
+  background-color: #FF00BA;
+}

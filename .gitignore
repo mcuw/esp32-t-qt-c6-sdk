@@ -9,3 +9,9 @@ upload_params.ini
 # projectplan and design
 *.kanban
 *.excalidraw
+
+# npm
+node_modules
+
+# frontend build
+data/
