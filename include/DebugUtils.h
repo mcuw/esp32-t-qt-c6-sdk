@@ -1,14 +1,17 @@
 #ifndef DEBUG_UTILS_H
 
 /**
- * Currently facing an issue that
- * when using serial prints over the USB Serial
- * the ESP32 is not working w/o an open USB Serial terminal/ monitor
- * activate serial in platform.ini if needed:
-
+ * When using serial prints over the USB Serial
+ * an open USB Serial terminal/ monitor is required.
+ * To run ESP32 w/o open connection set this flag to 0:
 [env]
 build_flags =
-  '-DSERIAL_DEBUG'
+  '-D ARDUINO_USB_CDC_ON_BOOT=0'
+ *
+ * activate serial debug in platform.ini if needed:
+[env]
+build_flags =
+  '-D SERIAL_DEBUG'
 */
 
 #ifdef SERIAL_DEBUG

@@ -1,19 +1,15 @@
 import { $, component$, useSignal } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { type DocumentHead } from "@builder.io/qwik-city";
 import { HOST } from "../consts/host";
 
-// export async function getState(controller?: AbortController): Promise<string> {
-//   console.log("FETCH", `/api/state`);
-//   const resp = await fetch(`/api/state`, {
-//     signal: controller?.signal,
-//   });
-//   console.log("FETCH resolved");
-//   const json = await resp.json();
-//   return json.state;
-// }
+/**
+ * %STATE%        is a placeholder and will be replaced serverside on the ESP32 (SSR)
+ * Qwik useSignal https://qwik.dev/docs/getting-started/#4-modifying-state
+ * fetch          https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+ */
 
 export default component$(() => {
-  const state = useSignal("%STATE%");
+  const state = useSignal<number>();
 
   const requestOn = $(async () => {
     const res = await fetch(`http://${HOST}/api/on`);
@@ -27,30 +23,45 @@ export default component$(() => {
     state.value = stateResponse.state;
   });
 
+  const requestState = $(async () => {
+    const res = await fetch(`http://${HOST}/api/state-changed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        state: state.value,
+      }),
+    });
+    const stateResponse = await res.json();
+    state.value = stateResponse.state;
+  });
+
   return (
     <>
-      <h1>T-QT-C6</h1>
-      <p>State: {state.value}</p>
-      <p>
-        <button
-          onClick$={async () => {
-            await requestOn();
+      <h1>T-QT-C6 with Qwik frontend</h1>
+
+      <div class="range-slider">
+        <input
+          class="range-slider__range"
+          type="range"
+          min="0"
+          max="255"
+          value={state.value ?? "%STATE%"}
+          onChange$={async (_event: Event, element: HTMLInputElement) => {
+            state.value = parseInt(element.value, 10);
+            await requestState();
           }}
-          class="button"
-        >
-          ON
-        </button>
-      </p>
-      <p>
-        <button
-          onClick$={async () => {
-            await requestOff();
-          }}
-          class="button secondary"
-        >
-          OFF
-        </button>
-      </p>
+        />
+        <span class="range-slider__value">{state.value ?? "%STATE%"}</span>
+      </div>
+
+      <button onClick$={requestOn} class="button">
+        ON
+      </button>
+      <button onClick$={requestOff} class="button secondary">
+        OFF
+      </button>
     </>
   );
 });
@@ -60,7 +71,7 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content: "UI example with Wifi AP",
+      content: "UI example with WiFi Access Point",
     },
   ],
 };

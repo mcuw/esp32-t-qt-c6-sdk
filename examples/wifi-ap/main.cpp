@@ -1,27 +1,28 @@
 #include <Arduino.h>
-#include "Qt.h"
 #include "WebServer.h"
 #include <FS.h>
 #include <LittleFS.h>
 #include <FFat.h> // or.. FAT
 #include <WiFi.h>
-#include <ArduinoJson.h>
+#include <ArduinoJson.h> // https://arduinojson.org
 #include "pin_config.h"
+#include "Qt.h"
 
 #define CHANNEL 1
 #define HOSTNAME "webserver"
+#define LIGHT_ON 0
+#define LIGHT_OFF 255
 
 WebServer server(80);
-String state("off");
+uint8_t state = LIGHT_OFF;
 Qt qt;
-fs::FS *fsys = nullptr;
 
 void sendStateResponse()
 {
   JsonDocument root;
   root["state"] = state;
 
-  char output[256];
+  char output[14];
   serializeJson(root, output);
 
   server.sendHeader("Cache-Control", "no-cache");
@@ -30,32 +31,32 @@ void sendStateResponse()
 
 void handleOn()
 {
-  state = "on";
-  qt.setBreathingLight(0);
-  Serial.println("BreathingLight on");
+  state = LIGHT_ON;
+  qt.setBreathingLight(state);
   sendStateResponse();
 }
 
 void handleOff()
 {
-  state = "off";
-  qt.setBreathingLight(255);
-  Serial.println("BreathingLight off");
+  state = LIGHT_OFF;
+  qt.setBreathingLight(state);
   sendStateResponse();
 }
 
-void handleRedirect()
+void handleState()
 {
-  Serial.println("Redirect...");
-  String url = "/index.html";
-  // TODO remove?
-  if (!fsys->exists(url))
-  {
-    url = "/$upload.htm";
-  }
+  sendStateResponse();
+}
 
-  server.sendHeader("Location", url, true);
-  server.send(302);
+void handleStateChanged()
+{
+  JsonDocument doc;
+  deserializeJson(doc, server.arg(0));
+
+  state = doc["state"];
+  qt.setBreathingLight(state);
+
+  server.send(204);
 }
 
 static const char notFoundContent[] PROGMEM = R"==(
@@ -79,10 +80,19 @@ void handleRoot()
   }
 
   String content(file.readString());
-  content.replace("%STATE%", state);
+  char stateString[4];
+  sprintf(stateString, "%d", state);
+  content.replace("%STATE%", stateString);
 
   server.send(200, "text/html", content);
   file.close();
+}
+
+void handleNotFound()
+{
+  // standard not found in browser
+  // TODO: use 404.html file
+  server.send(404, "text/html", FPSTR(notFoundContent));
 }
 
 void setup()
@@ -95,54 +105,21 @@ void setup()
   // TODO: use wifimanager
   qt.setupAp("T-QT-C6", "qtqtpasspass", WIFI_AUTH_WPA3_PSK);
 
-  fsys = &LittleFS;
-
-  Serial.println("Mounting the filesystem...");
-  if (!fsys)
-  {
-    Serial.println("need to change the board configuration to include a partition for files.");
-    delay(30000);
-  }
-  else if ((fsys == (fs::FS *)&FFat) && (!FFat.begin()))
-  {
-    Serial.println("could not mount the filesystem...");
-    delay(2000);
-    Serial.println("formatting FAT...");
-    FFat.format();
-    delay(2000);
-    Serial.println("restarting...");
-    delay(2000);
-    ESP.restart();
-  }
-  else if ((fsys == (fs::FS *)&LittleFS) && (!LittleFS.begin()))
-  {
-    Serial.println("could not mount the filesystem...");
-    delay(2000);
-    Serial.println("formatting LittleFS...");
-    LittleFS.format();
-    delay(2000);
-    Serial.println("restarting...");
-    delay(2000);
-    ESP.restart();
-  }
+  server.enableCORS(true);
 
   server.on("/", HTTP_GET, handleRoot);
-  server.enableCORS(true);
 
   // API
   server.on("/api/on", HTTP_GET, handleOn);
   server.on("/api/off", HTTP_GET, handleOff);
+  server.on("/api/state", HTTP_GET, handleState);
+  server.on("/api/state-changed", HTTP_POST, handleStateChanged);
 
-  // serve all static files
-  server.serveStatic("/", *fsys, "/");
-  Serial.println("Register default (not found) answer...\n");
+  // serve all static files - have to declare after the API routes
+  server.serveStatic("/", LittleFS, "/");
 
-  // handle cases when file is not found
-  server.onNotFound([]()
-                    {
-    // standard not found in browser.
-    //TODO: use 404.html file
-    server.send(404, "text/html", FPSTR(notFoundContent)); });
+  // handle cases when path/ file is not found
+  server.onNotFound(handleNotFound);
 
   // Start server
   server.begin();

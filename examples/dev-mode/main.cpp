@@ -10,7 +10,7 @@ QtDev qt;
 
 void setup()
 {
-  serialBegin(115200);
+  Serial.begin(115200);
 
   qt.begin();
 }

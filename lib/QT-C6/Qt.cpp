@@ -50,17 +50,17 @@ void Qt::initPowerChip()
 {
   if (SGM41562->begin())
   {
-    Serial.println("SGM41562 initialized");
+    log_v("SGM41562 initialized");
     return;
   }
 
   if (ETA4662->begin())
   {
-    Serial.println("ETA4662 initialized");
+    log_v("ETA4662 initialized");
     return;
   }
 
-  Serial.println("Power chip initialization failed");
+  log_e("Power chip initialization failed");
 }
 
 void Qt::setupBacklight()
@@ -109,11 +109,11 @@ void Qt::setupTouch()
 {
   while (!CST816T->begin())
   {
-    Serial.println("CST816T initialization failed");
+    log_e("CST816T initialization failed");
     delay(2000);
   }
 
-  Serial.println("CST816T initialized");
+  log_v("CST816T initialized");
 }
 
 TouchState Qt::getTouch()
@@ -143,7 +143,7 @@ TouchState Qt::getTouch()
 void Qt::setupGfx()
 {
   gfx->begin();
-  // example overwrite setupGfx and set default color
+  // example overwrite setupGfx()s and set default color
   // gfx->fillScreen(color);
 }
 
@@ -173,7 +173,7 @@ void Qt::setupAp(const char *ssid, const char *passphrase, wifi_auth_mode_t auth
 {
   if (!passphrase)
   {
-    Serial.println("Warning: setup empty passphrase is insecure");
+    log_w("Setup an empty passphrase is insecure");
   }
   WiFi.mode(WIFI_AP);
   delay(10);
@@ -182,9 +182,11 @@ void Qt::setupAp(const char *ssid, const char *passphrase, wifi_auth_mode_t auth
 
 void Qt::setupFs()
 {
-#ifdef ESP32
-  LittleFS.begin(true);
-#else
-  LittleFS.begin();
-#endif
+  if (!LittleFS.begin(true))
+  {
+    log_e("Could not mount the filesystem.");
+    log_w("restarting...");
+    delay(2000);
+    ESP.restart();
+  }
 }

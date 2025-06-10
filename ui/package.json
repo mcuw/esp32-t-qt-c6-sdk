@@ -4,6 +4,7 @@
   "description": "UI to change a state",
   "main": "index.js",
   "scripts": {
+    "build.state": "pnpm --filter state build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
