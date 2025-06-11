@@ -42,7 +42,7 @@ Uncomment a `src_dir=` line in the `platform.ini` file.
 | gfx | [./examples/gfx](./examples/gfx) | showcase display drawing |
 | touch-CST816T-gfx | [./examples/touch-CST816T-gfx](./examples/touch-CST816T-gfx) | display with touch gesture |
 | WiFi AP | [./examples/wifi-ap](./examples/wifi-ap) | Access Point with Qwik UI |
-|  | [./examples/](./examples/) |  |
+| catalog | [./examples/](./examples/) |  |
 
 ### WiFi AP - WiFi Access Point with Qwik UI example
 
