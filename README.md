@@ -110,6 +110,6 @@ void loop()
 
 ## Disclaimer
 
-Contribution and help ... if you find an issue or wants to contribute then please do not hesitate to create a merge request or an issue.
+Contribution and help ... if you find an issue or wants to contribute then please do not hesitate to create a Pull request or an issue.
 
 We provide our build template as is, and we make no promises or guarantees about this code.
