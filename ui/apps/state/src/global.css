@@ -1,0 +1,50 @@
+html {
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  color: #225ece;
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+
+.button {
+  display: inline-block;
+  background-color: #008CBA;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 16px 40px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #00FCFA;
+}
+
+.secondary {
+  background-color: #FF00BA;
+}
+
+.range-slider {
+  margin-bottom: 12px;
+  width: 210px;
+}
+
+.range-slider__range {
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  outline: none;
+  background: #d3d3d3;
+  opacity: 0.7;
+}
+
+.range-slider__range:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}

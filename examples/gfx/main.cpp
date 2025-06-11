@@ -111,7 +111,7 @@ void gfxTask(void *pvParameters)
 
 void setup()
 {
-  serialBegin(115200);
+  Serial.begin(115200);
 
   qt.begin();
   qt.setBacklight(0);
