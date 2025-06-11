@@ -86,6 +86,28 @@ lib_deps =
   https://github.com/mcuw/esp32-t-qt-c6-sdk.git
 ```
 
+4. example main.cpp
+```c
+#include <Arduino.h>
+#include <Qt.h>
+
+Qt qt;
+
+void setup()
+{
+  qt.begin();
+}
+
+void loop()
+{
+  qt.setBreathingLight(0);
+  delay(1000);
+
+  qt.setBreathingLight(255);
+  delay(1000);
+}
+```
+
 ## Disclaimer
 
 Contribution and help ... if you find an issue or wants to contribute then please do not hesitate to create a merge request or an issue.
