@@ -4,7 +4,7 @@
 #include "Arduino_GFX_Library.h"
 #include "Arduino_DriveBus_Library.h"
 #include "pin_config.h"
-#include "./Qt.h"
+#include "Qt.h"
 
 void Arduino_IIC_Touch_Interrupt(void);
 

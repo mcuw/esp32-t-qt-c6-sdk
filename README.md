@@ -50,23 +50,41 @@ Uncomment a `src_dir=` line in the `platform.ini` file.
 
 1. modify the [./partitions.csv](./partitions.csv) if needed to prepare the filesystem
 
-2. build and upload the project
+2. comment out `src_dir = ./examples/wifi-ap` line in [platformio.ini](platformio.ini)
+
+3. build and upload the project
 
 <img src="./assets/platformio_build_upload.png" alt="platformio build app" />
 
-3. build and upload Qwik UI (SSG) in `/data`
+4. build and upload Qwik UI (SSG) in `/data`
 ```sh
 cd ui && pnpm i
 ```
 ```sh
 pnpm build.state
 ```
-4. call
+5. call
 `Build Filesystem Image` then
 `Upload Filesystem Image`:
 
 <img src="./assets/filesystem_image.png" alt="upload filesystem platformio option" />
 
+## Get Started a new project
+
+1. create a platformio project (e.g. with expressif esp32-c6-devkitc-1)
+
+2. copy the [boards](boards/) path to your project root path
+
+3. adapt the platformio.ini
+
+```ini
+[env:esp32-c6]
+board = esp32-c6-n4
+framework = arduino
+platform = https://github.com/pioarduino/platform-espressif32/releases/download/stable/platform-espressif32.zip
+lib_deps =
+  https://github.com/mcuw/esp32-t-qt-c6-sdk.git
+```
 
 ## Disclaimer
 

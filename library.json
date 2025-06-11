@@ -1,0 +1,35 @@
+{
+  "name": "T-QT-C6-SDK",
+  "version": "0.1.0",
+  "description" : "Supports the LilyGo T-QT C6 development board",
+  "keywords": "esp32, t-qt, c6, t-qt-c6, lilygo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcuw/esp32-t-qt-c6.git"
+  },
+  "authors": [
+    {
+      "name": "Van Vuong Ngo",
+      "email": "20791239+vanvuongngo@users.noreply.github.com",
+      "url": "https://github.com/vanvuongngo"
+    }
+  ],
+  "license": "MIT",
+  "export": {
+    "include": ["src", "boards", "LICENSE"]
+  },
+  "dependencies": [
+    {
+      "name": "GFX Library for Arduino",
+      "version": "moononournation/GFX Library for Arduino @ ^1.6.0"
+    },
+    {
+      "name": "ArduinoJson",
+      "version": "bblanchon/ArduinoJson @ ^7.4.1"
+    },
+    {
+      "name": "Driver Bus Library Based on Arduino",
+      "version": "https://github.com/mcuw/Arduino_DriveBus.git#t-qt-c6"
+    }
+  ]
+}

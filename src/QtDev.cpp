@@ -1,5 +1,5 @@
 #include "pin_config.h"
-#include "./QtDev.h"
+#include "QtDev.h"
 
 QtDev::QtDev() : Qt() {
                  };
