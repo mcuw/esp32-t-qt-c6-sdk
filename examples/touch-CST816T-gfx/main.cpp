@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <DebugUtils.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "pin_config.h"
@@ -25,31 +24,31 @@ void touchGfxTask(void *pvParameters)
     state = qt.getTouch();
     if (state.touched)
     {
-      qt.fillScreenGfx(BLACK);
+      qt.fillScreenGfx(RGB565_BLACK);
 
       if (state.gesture == "Swipe Up")
       {
-        qt.printfGfx(WHITE, 0, SAFE_Y_TOP, "Swipe Up");
+        qt.printfGfx(RGB565_WHITE, 0, SAFE_Y_TOP, "Swipe Up");
         Serial.println("Gesture: Swipe Up");
       }
       else if (state.gesture == "Swipe Down")
       {
-        qt.printfGfx(WHITE, 0, SAFE_Y_TOP, "Swipe Down");
+        qt.printfGfx(RGB565_WHITE, 0, SAFE_Y_TOP, "Swipe Down");
         Serial.println("Gesture: Swipe Down");
       }
       else
       {
         // more gestures "Swipe Right", "Swipe Left" and
         // these are w/o finger numbers: "Single Click", "Double Click"
-        qt.printfGfx(WHITE, 0, SAFE_Y_TOP, state.gesture.c_str());
+        qt.printfGfx(RGB565_WHITE, 0, SAFE_Y_TOP, state.gesture.c_str());
         Serial.printf("Gesture: %s\n", state.gesture);
       }
 
-      qt.printfGfx(WHITE, 0, 46, "Touch");
-      qt.printfGfx(WHITE, 0, 66, "x:%d y:%d", state.x, state.y);
+      qt.printfGfx(RGB565_WHITE, 0, 46, "Touch");
+      qt.printfGfx(RGB565_WHITE, 0, 66, "x:%d y:%d", state.x, state.y);
       Serial.printf("Touch X:%d Y:%d\n", state.x, state.y);
 
-      qt.printfGfx(WHITE, 0, SAFE_Y_BOTTOM, "Fingers: %d", state.fingers);
+      qt.printfGfx(RGB565_WHITE, 0, SAFE_Y_BOTTOM, "Fingers: %d", state.fingers);
       Serial.printf("Fingers number: %d\n", state.fingers); // 0 on clicks otherwise 1
 
       vTaskDelay(pdMS_TO_TICKS(REFRESH_INTERVAL)); // wait 10 ms
