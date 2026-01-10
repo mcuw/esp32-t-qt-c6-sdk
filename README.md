@@ -3,10 +3,6 @@
 ## Description
 
 This is an Arduino library (v3.x) to use the [LilyGo T-QT C6](https://lilygo.cc/products/t-qt-c6) with touch gesture display and LiPo battery.
-<figure>
-  <img src="https://lilygo.cc/cdn/shop/files/T-QT_C6_With_Ring_2.jpg?v=1734338859&width=480" alt="LilyGo T-QT C6 with ring adapter" />
-  <figcaption>image from lilygo.cc</figcaption>
-</figure>
 
 [LilyGo T-QT C6](https://lilygo.cc/products/t-qt-c6) is a mini development board based on the [ESP32-C6](https://www.espressif.com/en/products/socs/esp32-c6) chip from [espressif](https://www.espressif.com/en) and with a 128x128px TFT full-color touch gesture screen
 
